@@ -1,12 +1,14 @@
-import { authConstants } from "./constants"
+import { authConstants } from "./constants";
+import * as api from "../api";
 
-export const login = (user) => {
-    return (dispatch) => {
+export const login = (formData) => async (dispatch) => {
+    try {
+        const {data} = await api.adminSignIn(formData);
         dispatch({
             type: authConstants.LOGIN_REQUEST, 
-            payload: {
-                ...user
-            }
+            data
         });
+    } catch (error) {
+        console.log(error);
     }
 }

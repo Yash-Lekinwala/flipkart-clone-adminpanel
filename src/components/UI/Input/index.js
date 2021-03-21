@@ -1,11 +1,11 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
-const input = ({label, type, placeholder, errorMessage, value, onChange}) => {
+const Input = ({label, type, placeholder, errorMessage, value, name, handleChange}) => {
     return (
-        <Form.Group controlId="formBasicEmail">
+        <Form.Group controlId={name}>
             <Form.Label>{label}</Form.Label>
-            <Form.Control type={type} placeholder={placeholder} value={value} onChange={onChange} />
+            <Form.Control name={name} type={type} placeholder={placeholder} value={value} onChange={handleChange} />
             <Form.Text className="text-muted">
             {errorMessage}
             </Form.Text>
@@ -13,4 +13,4 @@ const input = ({label, type, placeholder, errorMessage, value, onChange}) => {
     )
 }
 
-export default input
+export default Input;

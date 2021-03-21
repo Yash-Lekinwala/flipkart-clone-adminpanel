@@ -1,5 +1,4 @@
 import './App.css';
-import Layout from './components/Layout';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from './containers/Home';
 import Signin from './containers/Signin';
