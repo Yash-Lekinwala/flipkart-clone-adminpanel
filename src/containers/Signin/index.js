@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import Input from "../../components/UI/Input";
 import {login} from '../../actions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const initialState = {
     email: '',
@@ -14,6 +15,7 @@ const Signin = () => {
     const [formData, setFormData] = useState(initialState);
     const [error, setError] = useState('');
     const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth.authData);
 
     const userLogin = (e) => {
         e.preventDefault();
@@ -22,6 +24,11 @@ const Signin = () => {
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
+    }
+
+    if(auth?.user?.fullName != null)
+    {
+        return <Redirect to={`/`} />
     }
     
     return (
