@@ -16,3 +16,9 @@ API.interceptors.request.use((req) => {
 export const adminSignIn = (formData) => API.post('/admin/signin', formData);
 export const adminSignUp = (formData) => API.post('/admin/signup', formData);
 export const adminSignOut = () => API.post('/admin/signout');
+
+export const fetchCategories = () => API.get('/category/getcategory');
+export const addCategory = (formData) => API.post('/category/create', formData);
+
+// export const fetchCategories = () => API.get('/category/getcategory');
+export const addProduct = (formData) => API.post('/product/create', formData);

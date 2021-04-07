@@ -1,17 +1,16 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Sidebar from '../../components/Sidebar';
-import './style.css';
 
-const Home = () => {
+const Orders = () => {
     return (
         <Container fluid>
             <Row>
                 <Sidebar />
-                <Col md={10} style={{marginLeft: 'auto'}}>container</Col>
+                <Col md={10} style={{marginLeft: 'auto'}}>Orders</Col>
             </Row>
         </Container>
     )
 }
 
-export default Home;
+export default Orders;

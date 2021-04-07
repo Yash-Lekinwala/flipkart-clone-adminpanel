@@ -6,8 +6,12 @@ import Signup from './containers/Signup';
 import Header from './components/Header';
 import PrivateRoute from './components/HOC/PivateRoute';
 import { useEffect } from 'react';
-import { isUserLoggedIn } from './actions';
+import { getAllCategories, isUserLoggedIn } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
+import Products from './containers/Products';
+import { Container } from 'react-bootstrap';
+import Orders from './containers/Orders';
+import Category from './containers/Category';
 
 function App() {
 
@@ -17,6 +21,8 @@ function App() {
   useEffect(() => {
       if(!auth?.user)
           dispatch(isUserLoggedIn());
+        
+      dispatch(getAllCategories());
   }, []);
 
   return (
@@ -24,6 +30,10 @@ function App() {
         <Header />
         <Switch>
           <PrivateRoute path="/" exact component={Home} />
+          <PrivateRoute path="/products" component={Products} />
+          <PrivateRoute path="/orders" component={Orders} />
+          <PrivateRoute path="/category" component={Category} />
+
           <Route path="/signin" component={Signin} />
           <Route path="/signup" component={Signup} />
         </Switch>
