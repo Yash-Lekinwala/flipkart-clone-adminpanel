@@ -6,7 +6,7 @@ import Signup from './containers/Signup';
 import Header from './components/Header';
 import PrivateRoute from './components/HOC/PivateRoute';
 import { useEffect } from 'react';
-import { getAllCategories, isUserLoggedIn } from './actions';
+import { getAllCategories, getInitialData, isUserLoggedIn } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Products from './containers/Products';
 import { Container } from 'react-bootstrap';
@@ -22,7 +22,7 @@ function App() {
       if(!auth?.user)
           dispatch(isUserLoggedIn());
         
-      dispatch(getAllCategories());
+      dispatch(getInitialData());
   }, []);
 
   return (

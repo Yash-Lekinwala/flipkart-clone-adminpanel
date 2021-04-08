@@ -22,3 +22,5 @@ export const addCategory = (formData) => API.post('/category/create', formData);
 
 // export const fetchCategories = () => API.get('/category/getcategory');
 export const addProduct = (formData) => API.post('/product/create', formData);
+
+export const getInitialData = () => API.get('/initialdata');

@@ -18,6 +18,7 @@ const Products = () => {
     const [formData, setFormData] = useState(initialState);
     const [productImages, setProductImages] = useState([]);
     const category = useSelector(state => state.category);
+    const product = useSelector(state => state.product);
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
@@ -69,19 +70,21 @@ const Products = () => {
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Product Pictures</th>
                     <th>Category</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                    <td>Table cell</td>
-                </tr>
+                    {product.products.length > 0 ? 
+                    product.products.map((product, index) => 
+                    <tr key={product._id}>
+                        <td>{index+1}</td>
+                        <td>{product.name}</td>
+                        <td>&#8377; {product.price}</td>
+                        <td>{product.quantity}</td>
+                        <td>--</td>
+                    </tr>
+                    ) : null}
+                
                 </tbody>
             </Table>
         )
