@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../actions/product.action';
 import Sidebar from '../../components/Sidebar';
 import Input from '../../components/UI/Input';
+import { FaEdit, FaEye } from "react-icons/fa";
+import { addProduct } from '../../actions';
 
 const initialState = {
     name: '',
@@ -20,9 +21,11 @@ const Products = () => {
     const category = useSelector(state => state.category);
     const product = useSelector(state => state.product);
     const [show, setShow] = useState(false);
+    const [productDetailsModal, setProductDetailModal] = useState(false);
+    const [productDetails, setProductDetails] = useState(null);
     const dispatch = useDispatch();
 
-    const handleClose = () => {
+    const handleSubmit = () => {
         const form = new FormData();
         form.append('name', formData.name);
         form.append('category', formData.category);
@@ -39,6 +42,8 @@ const Products = () => {
     }
 
     const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const handleCloseProductModal = () => setProductDetailModal(false);
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -61,6 +66,11 @@ const Products = () => {
         return options;
     }
 
+    const showProductDetailsModal = (product) => {
+        setProductDetailModal(true);
+        setProductDetails(product);
+    }
+
     const renderProducts = () => {
         return (
             <Table responsive="sm">
@@ -71,6 +81,7 @@ const Products = () => {
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Category</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,7 +92,8 @@ const Products = () => {
                         <td>{product.name}</td>
                         <td>&#8377; {product.price}</td>
                         <td>{product.quantity}</td>
-                        <td>--</td>
+                        <td>{product.category.name}</td>
+                        <td><FaEdit /> | <FaEye onClick={() => showProductDetailsModal(product)}/></td>
                     </tr>
                     ) : null}
                 
@@ -90,26 +102,8 @@ const Products = () => {
         )
     }
 
-    return (
-        <Container fluid>
-            <Row>
-                <Sidebar />
-                <Col md={10} style={{marginLeft: 'auto', paddingTop: '60px'}}>
-                    <Container fluid>
-                        <Row>
-                            <Col md={12}>
-                                <h3>Products</h3>
-                                <Button className="float-right" onClick={handleShow}>Add</Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={12}>
-                                {renderProducts()}
-                            </Col>
-                        </Row>
-                    </Container>
-                </Col>
-            </Row>
+    const renderAddProductModal = () => {
+        return (
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add Product</Modal.Title>
@@ -169,11 +163,87 @@ const Products = () => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Save Product
                     </Button>
                 </Modal.Footer>
             </Modal>
+        );
+    }
+
+    const renderProductsDetailsModal = () => {
+        if(!productDetails)
+            return null;
+        
+        return (
+            <Modal size="lg" show={productDetailsModal} onHide={handleCloseProductModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Product Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col md="6">
+                            <label className="font-weight-bold">Name</label>
+                            <p>{productDetails.name}</p>
+                        </Col>
+                        <Col md="6">
+                            <label className="font-weight-bold">Price</label>
+                            <p>&#8377; {productDetails.price}</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md="6">
+                            <label className="font-weight-bold">Quantity</label>
+                            <p>{productDetails.quantity}</p>
+                        </Col>
+                        <Col md="6">
+                            <label className="font-weight-bold">Category</label>
+                            <p>{productDetails.category.name}</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md="12">
+                            <label className="font-weight-bold">Description</label>
+                            <p>{productDetails.description}</p>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col style={{display:'flex'}}>
+                            {productDetails.productPictures.map((picture) =>
+                            (
+                                <div className="w-25 overflow-hidden">
+                                    <img class="w-100" style={{objectFit:'contain'}} src={`http://localhost:5000/public/${picture.img}`} />
+                                </div>
+                            ))}
+                        </Col>
+                    </Row>
+                </Modal.Body>
+            </Modal>
+        )
+    }
+
+    return (
+        <Container fluid>
+            <Row>
+                <Sidebar />
+                <Col md={10} style={{marginLeft: 'auto', paddingTop: '60px'}}>
+                    <Container fluid>
+                        <Row>
+                            <Col md={12}>
+                                <h3>Products</h3>
+                                <Button className="float-right" onClick={handleShow}>Add</Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                {renderProducts()}
+                            </Col>
+                        </Row>
+                    </Container>
+                </Col>
+            </Row>
+            {renderAddProductModal()}
+            {renderProductsDetailsModal()}
         </Container>
     )
 }

@@ -6,10 +6,9 @@ import Signup from './containers/Signup';
 import Header from './components/Header';
 import PrivateRoute from './components/HOC/PivateRoute';
 import { useEffect } from 'react';
-import { getAllCategories, getInitialData, isUserLoggedIn } from './actions';
+import { getInitialData, isUserLoggedIn } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Products from './containers/Products';
-import { Container } from 'react-bootstrap';
 import Orders from './containers/Orders';
 import Category from './containers/Category';
 

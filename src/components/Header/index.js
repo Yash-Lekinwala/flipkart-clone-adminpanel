@@ -7,6 +7,7 @@ import { signout } from '../../actions';
 const Header = () => {
 
     const auth = useSelector(state => state.auth.authData);
+    console.log(auth);
     const dispatch = useDispatch();
 
     const renderNonLoggedInLinks = () => {
