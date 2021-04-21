@@ -1,17 +1,39 @@
 import axios from "axios";
+import { authConstants } from "../actions/constants";
+import store from '../store';
+
+const token = localStorage.getItem('token');
 
 const API = axios.create({
-    baseURL: 'http://localhost:5000/api/'
+    baseURL: 'http://localhost:5000/api/',
+    headers: {
+        'Authorization': token ? `Bearer ${token}` : ''
+    }
 });
 
 API.interceptors.request.use((req) => {
-    if(localStorage.getItem('token'))
+    const {auth} = store.getState();
+    if(auth.token)
     {
-        req.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+        req.headers.Authorization = `Bearer ${auth.token}`;
     }
-
     return req;
 });
+
+API.interceptors.request.use((res) => {
+    return res;
+}, (error) => {
+    console.log(error.response);
+    const {status} = error.response;
+    if(status === 500 || status === 400)
+    {
+        localStorage.clear();
+        store.dispatch({type: authConstants.LOGOUT_SUCCESS});
+    }
+    return Promise.reject(error);
+});
+
+
 
 export const adminSignIn = (formData) => API.post('/admin/signin', formData);
 export const adminSignUp = (formData) => API.post('/admin/signup', formData);
