@@ -38,3 +38,21 @@ export const addCategory = (formData) => async (dispatch) => {
         });
     }
 }
+
+export const updateCategories = (formData) => async (dispatch) => {
+    try {
+        const {data} = await api.updateCategories(formData);
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteCategories = (ids) => async (dispatch) => {
+    try {
+        const {data} = await api.deleteCategories(ids);
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+}

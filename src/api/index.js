@@ -19,8 +19,9 @@ export const adminSignOut = () => API.post('/admin/signout');
 
 export const fetchCategories = () => API.get('/category/getcategory');
 export const addCategory = (formData) => API.post('/category/create', formData);
+export const updateCategories = (formData) => API.post('/category/update', formData);
+export const deleteCategories = (ids) => API.post('/category/delete', ids);
 
-// export const fetchCategories = () => API.get('/category/getcategory');
 export const addProduct = (formData) => API.post('/product/create', formData);
 
 export const getInitialData = () => API.get('/initialdata');
