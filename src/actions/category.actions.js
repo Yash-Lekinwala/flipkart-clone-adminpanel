@@ -1,7 +1,7 @@
 import * as api from '../api';
 import { categoryConstants } from './constants';
 
-export const getAllCategories = () => async (dispatch) => {
+const getAllCategories = () => async (dispatch) => {
     dispatch({
         type: categoryConstants.CATEGORY_REQUEST, 
     });
@@ -40,19 +40,35 @@ export const addCategory = (formData) => async (dispatch) => {
 }
 
 export const updateCategories = (formData) => async (dispatch) => {
+    dispatch({type: categoryConstants.UPDATE_CATEGORY_REQUEST});
     try {
         const {data} = await api.updateCategories(formData);
+        dispatch({type: categoryConstants.UPDATE_CATEGORY_SUCCESS});
+        dispatch(getAllCategories());
         return true;
     } catch (error) {
-        console.log(error);
+        dispatch({
+            type: categoryConstants.UPDATE_CATEGORY_FAILURE,
+            payload: error
+        });
     }
 }
 
 export const deleteCategories = (ids) => async (dispatch) => {
+    dispatch({type: categoryConstants.DELETE_CATEGORY_REQUEST});
     try {
         const {data} = await api.deleteCategories(ids);
+        dispatch({type: categoryConstants.DELETE_CATEGORY_SUCCESS});
+        dispatch(getAllCategories());
         return true;
     } catch (error) {
-        console.log(error);
+        dispatch({
+            type: categoryConstants.UPDATE_CATEGORY_FAILURE,
+            payload: error
+        });
     }
+}
+
+export {
+    getAllCategories
 }
