@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
 import Sidebar from '../../components/Sidebar';
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import {FaEdit  } from 'react-icons/fa';
 import UpdateCategoriesModal from './components/UpdateCategoriesModal';
 import AddCategoryModal from './components/AddCategoryModal';
 import './style.css';
+import categoryList from '../../helpers/linearCategories';
 
 const initialState = {
     categoryName: '',
@@ -31,11 +32,19 @@ const Category = () => {
     const [editShow, setEditShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
 
+    useEffect(() => {
+        if(!category.loading)
+        {
+            setShow(false);
+        }
+    }, [category.loading]);
+
     const handleSubmit = () => {
         const form = new FormData();
         if(formData.categoryName === '')
         {
             alert('Name is required');
+            setShow(false);
             return;
         }
         form.append('name', formData.categoryName);
@@ -137,23 +146,6 @@ const Category = () => {
         return myCategories;
     }
 
-    const categoryList = (categories, options = []) => {
-        for(let category of categories)
-        {
-            options.push({
-                value: category._id,
-                name: category.name, 
-                parentId: category.parentId,
-                type: category.type
-            });
-            if(category.children.length > 0)
-            {
-                categoryList(category.children, options)
-            }
-        }
-        return options;
-    }
-
     const handleCategoryInput = (key, value, index, type) => {
         if(type == 'checked')
         {
@@ -166,8 +158,6 @@ const Category = () => {
             setExpandedArray(updatedExpandedArray);
         }
     }
-
-
 
     const deleteCategories = () => {
         const checkedIdArray = checkedArray.map((item, index) => ({_id: item.value}));

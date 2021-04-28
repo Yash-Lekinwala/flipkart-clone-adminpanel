@@ -41,7 +41,7 @@ const Signup = () => {
 
 
     return (
-        <Container>
+        <Container style={{paddingTop: '60px'}}>
             <Row className="mt-5">
                 <Col md={{span: 6, offset: 3}}>
                     {user.message}

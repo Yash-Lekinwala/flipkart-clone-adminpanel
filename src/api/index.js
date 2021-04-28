@@ -20,13 +20,14 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-API.interceptors.request.use((res) => {
+API.interceptors.response.use((res) => {
     return res;
 }, (error) => {
     console.log(error.response);
     const {status} = error.response;
     if(status === 500 || status === 400)
     {
+        console.log('heer');
         localStorage.clear();
         store.dispatch({type: authConstants.LOGOUT_SUCCESS});
     }
@@ -45,5 +46,7 @@ export const updateCategories = (formData) => API.post('/category/update', formD
 export const deleteCategories = (ids) => API.post('/category/delete', ids);
 
 export const addProduct = (formData) => API.post('/product/create', formData);
+
+export const addPage = (formData) => API.post('/page/create', formData);
 
 export const getInitialData = () => API.get('/initialdata');

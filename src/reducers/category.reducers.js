@@ -72,7 +72,9 @@ const categoryReducer = (state=initState, action) => {
             }
         case categoryConstants.ADD_CATEGORY_FAILURE:
             return state = {
-                ...initState            
+                ...initState,
+                loading: false,
+                error: action.payload.error            
             }
         case categoryConstants.UPDATE_CATEGORY_REQUEST:
             return state = {

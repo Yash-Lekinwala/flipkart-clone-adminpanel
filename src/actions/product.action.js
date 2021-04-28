@@ -7,7 +7,6 @@ export const addProduct = (formData) => async (dispatch) => {
     });
     try {
         const {data} = await api.addProduct(formData);
-        console.log(data);
         dispatch({
             type: productConstants.ADD_PRODUCT_SUCCESS,
             payload: {category: data.category}
